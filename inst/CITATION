@@ -1,0 +1,11 @@
+citHeader("To cite fDMA package in publications use:")
+
+citEntry(entry="Manual",
+          title = "{fDMA}: Dynamic Model Averaging and Dynamic Model Selection for continuous outcomes",
+          author = "Krzysztof Drachal",
+          year = "2017",
+          url ="https://CRAN.R-project.org/package=fDMA",
+
+          textVersion = 
+          "Drachal, K., 2017. fDMA: Dynamic Model Averaging and Dynamic Model Selection for continuous outcomes. https://CRAN.R-project.org/package=fDMA"
+        ) 
