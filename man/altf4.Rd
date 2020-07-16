@@ -40,29 +40,22 @@ d=NULL,fmod=NULL,parallel=NULL,c=NULL,small.c=NULL)
 
 \examples{
 \dontrun{
-# models for untransformed data
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
-a1 <- altf4(y=wti,x=drivers,windows=c(36,100,150))
-
-# do not include first 12 observations for forecast quality measures,
-# i.e., treat first 12 observations as a ''training set''
-a2 <- altf4(y=wti,x=drivers,initial.period=12,windows=c(36,100,150))
-
-# models for log-differenced data
 ld.wti <- (diff(log(wti)))[-1,]
 ld.drivers <- (diff(log(drivers)))[-1,]
-a3 <- altf4(y=ld.wti,x=ld.drivers,d=TRUE,windows=c(36,100,150))
+
+a1 <- altf4(y=ld.wti,x=ld.drivers,d=TRUE,windows=c(36,100,150))
 
 win <- c(36,100,150)
-a4 <- altf4(y=ld.wti,x=ld.drivers,d=TRUE,windows=win,alpha=0.9,lambda=0.95)
+a2 <- altf4(y=ld.wti,x=ld.drivers,d=TRUE,windows=win,alpha=0.9,lambda=0.95)
 
 # models without a constant term
-a5 <- altf4(y=ld.wti,x=ld.drivers,d=TRUE,windows=win,alpha=0.9,lambda=0.95,c=FALSE)
+a3 <- altf4(y=ld.wti,x=ld.drivers,d=TRUE,windows=win,alpha=0.9,lambda=0.95,c=FALSE)
 
 # models only with a constant term
 empty <- matrix(,nrow=nrow(ld.drivers),ncol=0)
-a6 <- altf4(y=ld.wti,x=empty,d=TRUE,windows=win,alpha=0.9,lambda=0.95)
+a4 <- altf4(y=ld.wti,x=empty,d=TRUE,windows=win,alpha=0.9,lambda=0.95)
 }
 }
 

@@ -108,7 +108,7 @@ if (!is.null(W))
 if (c == FALSE)
   {
     xe <- xe[,-1,drop=FALSE]
-    E <- E[-1,-1]
+    E <- E[-1,-1,drop=FALSE]
   }
 
 tvpcppout <- tvpcpp(x,y,xe,theta,E,lambda,V,kappa)

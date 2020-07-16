@@ -4,7 +4,7 @@ altf <- function (y,x,window=NULL,initial.period=NULL,d=NULL,f=NULL,fmod=NULL,c=
 
 ### computes some forecast quality measures for some alternative forecasts
  
-### requires "forecast", "MSwM", "stats" and "xts" packages
+### requires "forecast", "stats" and "xts" packages
 
 ### y - a numeric or a column matrix of a dependent variable,
 
@@ -65,7 +65,7 @@ if (! is.numeric(initial.period)) { stop("initial.period must be numeric") }
 if ((initial.period <= 0) || (initial.period > length(y))) { stop("initial.period must be greater than or equal to 1, and less than the number of observations") }
 if (is.null(d)) { d <- FALSE }
 if (! is.logical(d)) { stop("d must be logical, i.e., TRUE or FALSE") }
-if (is.null(f)) { f <- rep(TRUE,11) }
+if (is.null(f)) { f <- rep(TRUE,10) }
 if (is.null(c)) { c <- TRUE }
 
 y <- as.matrix(y)
@@ -97,13 +97,16 @@ if (f[2]==TRUE)
 
 if (c==TRUE)
   {
-    m <- lm(y ~ x)
+    m <- lm(y[1:(initial.period-1)] ~ x[1:(initial.period-1),,drop=FALSE])
+    xx <- cbind(1,x)
   }
 else
   {
-    m <- lm(y ~ x -1)
+    m <- lm(y[1:(initial.period-1)] ~ x[1:(initial.period-1),,drop=FALSE] -1)
+    xx <- x
   }
-y.ols <- m$fitted.values
+
+y.ols <- as.vector(t(as.matrix(m$coefficients)) %*% t(xx))
 mm <- summary(m)
 if (all(is.finite(m$coefficients)) && all(is.finite(mm$coefficients[,4])))
   {
@@ -245,13 +248,15 @@ yy <- (as.vector(y))[-1]
 
 if (c==TRUE)
   {
-    m <- lm(yy ~ x1)
+    m <- lm(yy[1:(initial.period-1)] ~ x1[1:(initial.period-1)])
+    xx <- cbind(1,x1)
   }
 else
   {
-    m <- lm(yy ~ x1 -1)
+    m <- lm(yy[1:(initial.period-1)] ~ x1[1:(initial.period-1)] -1)
+    xx <- x1
   }
-y.ar1 <- m$fitted.values
+y.ar1 <- as.vector(t(as.matrix(m$coefficients)) %*% t(xx))
 y.ar1 <- c(NA,y.ar1)
 
 rm(x1,yy)
@@ -299,15 +304,17 @@ yy <- (as.vector(y))[-c(1,2)]
 
 if (c==TRUE)
   {
-    m <- lm(yy ~ x2)
+    m <- lm(yy[1:(initial.period-1)] ~ x2[1:(initial.period-1),,drop=FALSE])
+    xx <- cbind(1,x2)
   }
 else
   {
-    m <- lm(yy ~ x2 -1)
+    m <- lm(yy[1:(initial.period-1)] ~ x2[1:(initial.period-1),,drop=FALSE] -1)
+    xx <- x2
   }
 mm <- summary(m)
 
-y.ar2 <- m$fitted.values
+y.ar2 <- as.vector(t(as.matrix(m$coefficients)) %*% t(xx))
 y.ar2 <- c(NA,NA,y.ar2)
 
 rm(x1,yy,x2)
@@ -347,17 +354,33 @@ if (f[8]==TRUE)
 
 if (c==TRUE)
   {
-    m <- auto.arima(as.vector(y),allowmean=TRUE)
+    m <- auto.arima(as.vector(y)[1:(initial.period-1)],allowmean=TRUE)
   }
 else
   {
-    m <- auto.arima(as.vector(y),allowmean=FALSE)
+    m <- auto.arima(as.vector(y)[1:(initial.period-1)],allowmean=FALSE)
   }
-y.auto.arima <- y - m$residuals 
-
+y.auto.arima <- y[1:(initial.period-1)] - m$residuals
+if (initial.period==1)
+  {
+    y.auto.arima <- c(as.vector(y.auto.arima),as.vector(forecast(object=m,h=length(y)-1)$mean)) 
+  }
+else
+  {
+    y.auto.arima <- c(as.vector(y.auto.arima),as.vector(forecast(object=m,h=length(y)-(initial.period-1))$mean)) 
+  }
+  
 se <- (diag(m$var.coef))^0.5
+
 coeff.auto.arima <- m$coef
-pval.auto.arima <- (1-pnorm(abs(coeff.auto.arima)/se))*2
+if (any(dim(se)==0))
+  {
+    pval.auto.arima <- 1
+  }
+else
+  {
+    pval.auto.arima <- (1-pnorm(abs(coeff.auto.arima)/se))*2
+  }
 
 if (c("intercept") %in% names(coeff.auto.arima))
   {
@@ -469,54 +492,6 @@ pval.tvp.ar2 <- NULL
 
 }
 
-######################### Markov Switching Models
-##################################################
-
-if (f[11]==TRUE)
-{
-
-if (c==TRUE)
-  {
-    ob <- lm(y ~ x)
-    msm <- msmFit(object=ob,k=2,sw=rep(TRUE,(ncol(x)+2)))
-  }
-else
-  {
-    ob <- lm(y ~ x -1)
-    msm <- msmFit(object=ob,k=2,sw=rep(TRUE,(ncol(x)+1)))
-  }
-
-y.ms <- msm@model$fitted.values
-
-coeff.ms <- as.matrix(msm@Coef)
-
-tsc <- coeff.ms/msm@seCoef
-
-if (c==FALSE) 
-  { 
-    tsc <- cbind(0,tsc) 
-    coeff.ms <- cbind(0,coeff.ms)
-  }
-
-pval.ms1 <- (1-pt(q=abs(as.numeric(tsc[1,])),df=(nrow(x)-ncol(x)-1)))*2
-pval.ms2 <- (1-pt(q=abs(as.numeric(tsc[2,])),df=(nrow(x)-ncol(x)-1)))*2
-pval.ms <- as.matrix(rbind(pval.ms1,pval.ms2))
-rownames(pval.ms) <- c("MS Regime 1", "MS Regime 2")
-rownames(coeff.ms) <- rownames(pval.ms)
-colnames(pval.ms) <- c("const",colnames(x))
-colnames(coeff.ms) <- c("const",colnames(x))
-
-rm(ob,msm)
-
-}
-else
-{
-y.ms <- NULL
-coeff.ms <- NULL
-pval.ms <- NULL
-
-}
-
 ##################################################
 
 fq <- list(y.naive,
@@ -528,8 +503,7 @@ fq <- list(y.naive,
            y.ar2,
            y.auto.arima,
            y.tvp.ar1,
-           y.tvp.ar2,
-           y.ms)
+           y.tvp.ar2)
 
 coeff <- list(coeff.naive,
               coeff.ols,
@@ -540,8 +514,7 @@ coeff <- list(coeff.naive,
               coeff.ar2,
               coeff.auto.arima,
               coeff.tvp.ar1,
-              coeff.tvp.ar2,
-              coeff.ms)
+              coeff.tvp.ar2)
 
 pval <- list(pval.naive,
              pval.ols,
@@ -552,13 +525,12 @@ pval <- list(pval.naive,
              pval.ar2,
              pval.auto.arima,
              pval.tvp.ar1,
-             pval.tvp.ar2,
-             pval.ms)
+             pval.tvp.ar2)
 
           
 fq2 <- fq[f]
 
-for (i in 1:11)
+for (i in 1:10)
 {
   if (!is.null(fq[[i]]))
     {
@@ -573,7 +545,7 @@ fq <- fq[f]
 
 fq <- matrix(unlist(fq),ncol=6,byrow=TRUE)
 
-rnames <- c("naive","OLS","rec. OLS","roll. OLS","TVP","AR(1)","AR(2)","auto ARIMA","TVP-AR(1)","TVP-AR(2)","MS")
+rnames <- c("naive","OLS","rec. OLS","roll. OLS","TVP","AR(1)","AR(2)","auto ARIMA","TVP-AR(1)","TVP-AR(2)")
 rownames(fq) <- rnames[f]
 names(fq2) <- rnames[f]
 colnames(fq) <- c("ME","RMSE","MAE","MPE","MAPE","HR")

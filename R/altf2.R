@@ -183,19 +183,22 @@ f.ols <- function(i)
         x.i <- x[,ind,drop=FALSE]
         if (c==1)
           {
-            m <- lm(y ~ x.i)
+            m <- lm(y[1:(initial.period-1)] ~ x.i[1:(initial.period-1),,drop=FALSE])
+            xx <- cbind(1,x.i)
           }
         else
           {
-            m <- lm(y ~ x.i -1)
+            m <- lm(y[1:(initial.period-1)] ~ x.i[1:(initial.period-1),,drop=FALSE] -1)
+            xx <- x.i
           }
       }
     else
       {
-        m <- lm(y ~ 1)
+        m <- lm(y[1:(initial.period-1)] ~ 1)
+        xx <- matrix(1,ncol=1,nrow=length(y))
       }
-
-    fv <- m$fitted.values
+    
+    fv <- as.vector(t(as.matrix(m$coefficients)) %*% t(xx))    
     aic <- AIC(m)
     n.par <- length(ind) + c + 1
     aicc <- aic + (2*n.par*(n.par+1))/(length(y)-n.par-1)
@@ -278,7 +281,7 @@ w[!is.finite(w)] <- NA
 
 if (!is.null(gprob.old))
   {
-    gprob <- gprob.old
+    gprob <- gprob.old[1:(initial.period-1),,drop=FALSE]
     gprob <- t(as.matrix(colMeans(gprob)))
     w.g <- t(sapply(seq(nrow(mods.incl)),f.gprob))
     w.g <- t(gNormalize(w.g))

@@ -16,8 +16,6 @@ Time-varying parameters models (TVP, TVP-AR(1) and TVP-AR(2)) are computed as \c
 
 Auto ARIMA (auto ARIMA) is computed as \code{\link[forecast]{auto.arima}}.
 
-Markov Switching Models (MS) are computed as \code{\link[MSwM]{msmFit}}. The object is a simple linear regression model. 2 regimes are assumed. All coefficients have switching. 
-
 ME (Mean Error), RMSE (Root Mean Squared Error), MAE (Mean Absolute Error), MPE (Mean Percentage Errror) and MAPE (Mean Absolute Percentage Error) are computed as \code{\link[forecast]{accuracy}}. HR (Hit Ratio) is computed as \code{\link{hit.ratio}}.
 }
 
@@ -29,9 +27,9 @@ altf(y,x,window=NULL,initial.period=NULL,d=NULL,f=NULL,fmod=NULL,c=NULL)
 \item{y}{\code{\link[base]{numeric}} or a column \code{\link[base]{matrix}} of a dependent variable}
 \item{x}{\code{\link[base]{matrix}} of independent variables, different columns correspond to different independent variables}
 \item{window}{optional, \code{\link[base]{numeric}}, a size of a rolling regression window (a number of observations), if not specified 10\% of all observations are taken}
-\item{initial.period}{optional, \code{\link[base]{numeric}}, a number of observation since which forecast quality measures are computed, if not specified the whole sample is used, i.e., \code{initial.period=1}}
+\item{initial.period}{optional, \code{\link[base]{numeric}}, a number of observation since which forecast quality measures are computed, if not specified the whole sample is used, i.e., \code{initial.period=1}, this argument also divides the sample into in-sample and out-of-sample for non-recursive methods (OLS, AR(1), AR(2), auto ARIMA)}
 \item{d}{optional, \code{\link[base]{logical}}, a parameter used for HR (Hit Ratio) calculation, should be \code{d=FALSE} for level time-series and \code{d=TRUE} if time-series represent changes, if not specified \code{d=FALSE}}
-\item{f}{optional, \code{\link[base]{logical}} vector, indicating which of alternative forecasts -- naive, OLS, rec. OLS, roll. OLS, TVP, AR(1), AR(2), auto ARIMA, TVP-AR(1), TVP-AR(2) and MS -- should be computed, if not specified \code{f=c(\link[base]{rep}(TRUE,11))}, i.e., all alternative forecasts are computed}
+\item{f}{optional, \code{\link[base]{logical}} vector, indicating which of alternative forecasts -- naive, OLS, rec. OLS, roll. OLS, TVP, AR(1), AR(2), auto ARIMA, TVP-AR(1) and TVP-AR(2) -- should be computed, if not specified \code{f=c(\link[base]{rep}(TRUE,10))}, i.e., all alternative forecasts are computed}
 \item{fmod}{optional, class \code{dma} object, a model to be compared with alternative forecast}
 \item{c}{optional, \code{\link[base]{logical}}, a parameter indicating whether constant is included in models, if not specified \code{c=TRUE} is used, i.e., constant is included}
 }
@@ -46,29 +44,22 @@ altf(y,x,window=NULL,initial.period=NULL,d=NULL,f=NULL,fmod=NULL,c=NULL)
 
 \examples{
 \dontrun{
-# models for untransformed data
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
-a1 <- altf(y=wti,x=drivers)
-
-# do not include first 12 observations for forecast quality measures,
-# i.e., treat first 12 observations as a ''training set''
-a2 <- altf(y=wti,x=drivers,initial.period=12)
-
-# models for log-differenced data
 ld.wti <- (diff(log(wti)))[-1,]
 ld.drivers <- (diff(log(drivers)))[-1,]
-a3 <- altf(y=ld.wti,x=ld.drivers,d=TRUE)
+
+a1 <- altf(y=ld.wti,x=ld.drivers,d=TRUE,initial.period=60)
 
 # models where constant term is not included in modelled equations (if applicable)
-a4 <- altf(y=ld.wti,x=ld.drivers,d=TRUE,c=FALSE)
+a2 <- altf(y=ld.wti,x=ld.drivers,d=TRUE,c=FALSE,initial.period=60)
 
 # compute just selected models
-fcomp <- c(TRUE,TRUE,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE)
-a5 <- altf(y=ld.wti,x=ld.drivers,d=TRUE,f=fcomp)
+fcomp <- c(TRUE,TRUE,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE)
+a3 <- altf(y=ld.wti,x=ld.drivers,d=TRUE,f=fcomp,initial.period=60)
 
 m1 <- fDMA(y=ld.wti,x=ld.drivers,alpha=0.99,lambda=0.90,initvar=10)
-a6 <- altf(y=ld.wti,x=ld.drivers,d=TRUE,f=fcomp,fmod=m1)
+a4 <- altf(y=ld.wti,x=ld.drivers,d=TRUE,f=fcomp,fmod=m1,initial.period=60)
 }
 }
 

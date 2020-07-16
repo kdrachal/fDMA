@@ -22,16 +22,16 @@ initial.period=NULL,d=NULL,f=NULL,fmod=NULL,parallel=NULL)
 \item{omega}{optional, \code{\link[base]{numeric}}, a parameter between 0 and 1 used in probabilities estimations, used if \code{gprob} is specified, see \code{\link{fDMA}}}
 \item{av}{optional, a method for model averaging, \code{av="ord"} corresponds to equal weights for each model, \code{av="aic"} corresponds to information theoretic model averaging based on Akaike Information Criterion, \code{av="aicc"} corresponds to information theoretic model averaging based on Akaike Information Criterion with a correction for finite sample sizes, \code{av="bic"} corresponds to information theoretic model averaging based on Bayesian Information Criterion, \code{av="mse"} corresponds to setting weights proportional to the inverse of the models Mean Squared Error, if not specified \code{av="ord"} is used}
 \item{window}{optional, \code{\link[base]{numeric}}, a size of a rolling regression window (a number of observations), if not specified 10\% of all observations are taken}
-\item{initial.period}{optional, \code{\link[base]{numeric}}, a number of observation since which forecast quality measures are computed, if not specified the whole sample is used, i.e., \code{initial.period=1}}
+\item{initial.period}{optional, \code{\link[base]{numeric}}, a number of observation since which forecast quality measures are computed, if not specified the whole sample is used, i.e., \code{initial.period=1}, this argument also divides the sample into in-sample and out-of-sample for av. OLS method}
 \item{d}{optional, \code{\link[base]{logical}}, a parameter used for HR (Hit Ratio) calculation, should be \code{d=FALSE} for level time-series and \code{d=TRUE} if time-series represent changes, if not specified \code{d=FALSE}}
 \item{f}{optional, \code{\link[base]{logical}} vector, indicating which of alternative forecast -- av. OLS, av. rec. OLS, av. roll. OLS and av. TVP -- should be averaged, if not specified \code{f=c(\link[base]{rep}(TRUE,4)}, i.e., all alternative forecast are computed}
 \item{fmod}{optional, class \code{dma} object, a model to be compared with alternative forecast}
 \item{parallel}{optional, \code{\link[base]{logical}}, indicate whether parallel computations should be used, by default \code{parallel=FALSE}}
 }
 
-\details{For each \code{av} method, in the initial period equal weights for each model are taken, and then successively updated based on the chosen criterion. For OLS models weights are not updated. The same weight for each model (estimated from the whole sample) is taken for each period.
+\details{For each \code{av} method, in the initial period equal weights for each model are taken, and then successively updated based on the chosen criterion. For OLS models weights are not updated. The same weight for each model (estimated from the in-sample period) is taken for each period.
 
-If \code{gprob} is used, then for OLS mean values from all periods are taken, for rec. OLS -- mean values from periods up to the current one, for roll. OLS -- mean values from the last \code{window} periods, and for TVP -- values from the current period.}
+If \code{gprob} is used, then for OLS mean values from the in-sample period are taken, for rec. OLS -- mean values from periods up to the current one, for roll. OLS -- mean values from the last \code{window} periods, and for TVP -- values from the current period.}
 
 \value{class \code{altf2} object, \code{\link[base]{list}} of
 \item{$summary}{\code{\link[base]{matrix}} of forecast quality measures ordered by columns, forecast methods are ordered by rows}
@@ -46,37 +46,31 @@ If \code{gprob} is used, then for OLS mean values from all periods are taken, fo
 
 \examples{
 \dontrun{
-# models for untransformed data
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
-a1 <- altf2(y=wti,x=drivers)
-
-# do not include first 12 observations for forecast quality measures,
-# i.e., treat first 12 observations as a ''training set''
-a2 <- altf2(y=wti,x=drivers,initial.period=12)
-
-# models for log-differenced data
 ld.wti <- (diff(log(wti)))[-1,]
 ld.drivers <- (diff(log(drivers)))[-1,]
-a3 <- altf2(y=ld.wti,x=ld.drivers,d=TRUE)
 
+a1 <- altf2(y=ld.wti,x=ld.drivers,d=TRUE,initial.period=60)
+
+# compute just selected models
 fcomp <- c(TRUE,TRUE,TRUE,FALSE)
-a4 <- altf2(y=ld.wti,x=ld.drivers,d=TRUE,f=fcomp)
-a5 <- altf2(y=ld.wti,x=ld.drivers,d=TRUE,f=fcomp,av="aic")
+a2 <- altf2(y=ld.wti,x=ld.drivers,d=TRUE,f=fcomp,initial.period=60)
+a3 <- altf2(y=ld.wti,x=ld.drivers,d=TRUE,f=fcomp,av="aic",initial.period=60)
 
 m1 <- fDMA(y=ld.wti,x=ld.drivers,alpha=0.99,lambda=0.90,initvar=10)
-a6 <- altf2(y=ld.wti,x=ld.drivers,d=TRUE,f=fcomp,fmod=m1)
+a4 <- altf2(y=ld.wti,x=ld.drivers,d=TRUE,f=fcomp,fmod=m1,initial.period=60)
 
 # models just with one independent variable and a constant will be averaged
 mds <- diag(1,ncol(ld.drivers),ncol(ld.drivers))
 mds <- cbind(rep(1,ncol(ld.drivers)),mds)
-a7 <- altf2(y=ld.wti,x=ld.drivers,d=TRUE,mods.incl=mds)
+a5 <- altf2(y=ld.wti,x=ld.drivers,d=TRUE,mods.incl=mds,initial.period=60)
 
 # Google trends are available since 2004
 gp <- trends/100
 s1 <- ld.wti['2004-01-01/']
 s2 <- ld.drivers['2004-01-01/']
-a8 <- altf2(y=s1,x=s2,d=TRUE,gprob=gp,omega=0.5)
+a6 <- altf2(y=s1,x=s2,d=TRUE,gprob=gp,omega=0.5,initial.period=60)
 }
 }
 

@@ -39,29 +39,22 @@ altf3(y,x=NULL,windows,av=NULL,initial.period=NULL,d=NULL,fmod=NULL,parallel=NUL
 
 \examples{
 \dontrun{
-# models for untransformed data
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
-a1 <- altf3(y=wti,x=drivers,windows=c(36,100,150))
-
-# do not include first 12 observations for forecast quality measures,
-# i.e., treat first 12 observations as a ''training set''
-a2 <- altf3(y=wti,x=drivers,initial.period=12,windows=c(36,100,150))
-
-# models for log-differenced data
 ld.wti <- (diff(log(wti)))[-1,]
 ld.drivers <- (diff(log(drivers)))[-1,]
-a3 <- altf3(y=ld.wti,x=ld.drivers,d=TRUE,windows=c(36,100,150))
 
-a4 <- altf3(y=ld.wti,x=ld.drivers,d=TRUE,av="aic",windows=c(36,100,150))
+a1 <- altf3(y=ld.wti,x=ld.drivers,d=TRUE,windows=c(36,100,150))
 
-a5 <- altf3(y=ld.wti,x=ld.drivers,d=TRUE,av=-2,windows=c(36,100,150))
+a2 <- altf3(y=ld.wti,x=ld.drivers,d=TRUE,av="aic",windows=c(36,100,150))
+
+a3 <- altf3(y=ld.wti,x=ld.drivers,d=TRUE,av=-2,windows=c(36,100,150))
 
 # models without a constant term 
-a6 <- altf3(y=ld.wti,x=ld.drivers,d=TRUE,av=-2,windows=c(36,100,150),c=FALSE)
+a4 <- altf3(y=ld.wti,x=ld.drivers,d=TRUE,av=-2,windows=c(36,100,150),c=FALSE)
 
 # models only with a constant term
-a7 <- altf3(y=ld.wti,d=TRUE,av=-2,windows=c(36,100,150))
+a5 <- altf3(y=ld.wti,d=TRUE,av=-2,windows=c(36,100,150))
 }
 }
 
