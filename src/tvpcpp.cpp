@@ -16,7 +16,7 @@ List tvpcpp(mat x, vec y, mat xe, mat theta, mat E, double lambda, double V, Nul
   mat thetas(theta.n_rows,N+1,fill::zeros);
   mat xx(1,xe.n_cols,fill::zeros);
   mat Rf(E.n_rows,E.n_cols,fill::zeros);
-  thetas.col(0) <- theta;
+  thetas.col(0) = theta;
 
   for (t=0;t!=N;t++)
     {
