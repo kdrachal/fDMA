@@ -1,9 +1,10 @@
-fDMA ver. 2.2.7 (Release date: 2022-09-04)
+fDMA ver. 2.2.7 (Release date: 2023-07-15)
 ==============
 
 Changes:
 
 * Small typo correction in tvpcpp() made.
+* Minor issues with CRAN policies detected and fixed. 
 
 
 fDMA ver. 2.2.6 (Release date: 2020-07-16)

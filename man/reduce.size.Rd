@@ -21,7 +21,7 @@ reduce.size(dma.object)
 with the information corresponding to each sub-model erased}
 
 \examples{
-\dontrun{
+\donttest{
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]

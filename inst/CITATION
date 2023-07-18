@@ -1,6 +1,6 @@
 citHeader("To cite fDMA package in publications use:")
 
-citEntry(entry="Article",
+bibentry(bibtype="Article",
           title = "Dynamic Model Averaging in economics and finance with {fDMA}: A package for {R}",
           author = "Krzysztof Drachal",
           journal = "Signals",

@@ -6,6 +6,9 @@
 plot.tvp <- function(x, non.interactive=NULL, ...)
   {
 
+oldpar <- par(no.readonly=TRUE) 
+on.exit(par(oldpar))
+
 if (is.null(non.interactive)) 
   {
     non.interactive <- FALSE
@@ -97,7 +100,7 @@ plot4 <- function(x)
 
     for (j in 1:(ncol(x$thetas)))
       {
-        mypath <- file.path(getwd(), paste("tvp_coeff_", j, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("tvp_coeff_", j, ".png", sep = ""))
         png(filename = mypath, height = height)
         par(xpd = TRUE, fig = c(0, 1, 0, 1), oma = c(2, 1, 1, 1), mar = c(2, 1, 2, 1))
         m1 <- min(x$thetas[,j],na.rm=TRUE)
@@ -110,7 +113,7 @@ plot4 <- function(x)
      img <- list()
      for (i in 1:j)
       {
-        mypath <- file.path(getwd(), paste("tvp_coeff_", i, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("tvp_coeff_", i, ".png", sep = ""))
         img[[i]] <- readPNG(mypath)
       }
 
@@ -127,7 +130,7 @@ plot4 <- function(x)
 
 if (non.interactive == FALSE) 
   {
-    choices <- c("actual and predicted", "residuals", "coefficients - one plot", "coefficients - separate plots (files in working directory)")
+    choices <- c("actual and predicted", "residuals", "coefficients - one plot", "coefficients - separate plots (files in temporary directory)")
     pick <- menu(choices = paste(" ", choices), title = "\nMake a plot selection (or 0 to exit):")
     switch(pick, plot1(x), plot2(x), plot3(x), plot4(x))
   }

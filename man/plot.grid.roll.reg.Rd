@@ -13,6 +13,9 @@
 \item{...}{not used}
 }
 
+\value{Called for making a plot.
+}
+
 \details{
 After executing the command, the User is asked to choose
 
@@ -20,9 +23,9 @@ After executing the command, the User is asked to choose
 
 2 - for plotting Mean Absolute Error (MAE) for all estimated models,
 
-3 - for plotting coefficients (including constant) for all estimated models, the outcomes are saved in separate png files in the current working directory, and additionally, plots for different variables are collected into one big plot (also saved as a png file in the current working directory),
+3 - for plotting coefficients (including constant) for all estimated models, the outcomes are saved in separate png files in the temporary directory, and additionally, plots for different variables are collected into one big plot (also saved as a png file in the temporary directory),
 
-4 - for plotting p-values for t-test of statistical significance for regression coefficients for all estimated models, the outcomes are saved in separate png files in the current working directory, and additionally, plots for different variables are collected into one big plot (also saved as a png file in the current working directory),
+4 - for plotting p-values for t-test of statistical significance for regression coefficients for all estimated models, the outcomes are saved in separate png files in the temporary directory, and additionally, plots for different variables are collected into one big plot (also saved as a png file in the temporary directory),
 
 Chosing 0 exits the \code{plot} command.
 
@@ -40,7 +43,7 @@ wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]
 ld.drivers <- (diff(log(drivers)))[-1,]
-\dontrun{
+\donttest{
 grw <- c(50,100,150)
 g <- grid.roll.reg(y=ld.wti,x=ld.drivers,grid.window=grw)
 

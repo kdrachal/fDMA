@@ -6,6 +6,9 @@
 plot.dma <- function(x, non.interactive=NULL, ...)
   {
 
+oldpar <- par(no.readonly=TRUE) 
+on.exit(par(oldpar))
+
 if (is.null(non.interactive)) 
   {
     non.interactive <- FALSE
@@ -123,7 +126,7 @@ plot5 <- function(x)
 
     for (j in 1:(ncol(x$post.incl)))
       {
-        mypath <- file.path(getwd(), paste("pip_", j, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("pip_", j, ".png", sep = ""))
         png(filename = mypath, height = height)
         par(xpd = TRUE, fig = c(0, 1, 0, 1), oma = c(2, 1, 1, 1), mar = c(2, 1, 2, 1))
         plot(x$post.incl[,j],col="blue",ylim=c(0,1),axes=TRUE, xaxt='n', xlab='',ylab='',type="l",main=names[j])
@@ -134,7 +137,7 @@ plot5 <- function(x)
      img <- list()
      for (i in 1:j)
       {
-        mypath <- file.path(getwd(), paste("pip_", i, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("pip_", i, ".png", sep = ""))
         img[[i]] <- readPNG(mypath)
       }
 
@@ -190,7 +193,7 @@ plot7 <- function(x)
 
     for (j in 1:(ncol(x$exp.coef.)))
       {
-        mypath <- file.path(getwd(), paste("coef_", j, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("coef_", j, ".png", sep = ""))
         png(filename = mypath, height = height)
         par(xpd = TRUE, fig = c(0, 1, 0, 1), oma = c(2, 1, 1, 1), mar = c(2, 1, 2, 1))
         plot(index(x$exp.coef.[,j]),rep(0,length(x$exp.coef.[,j])),lty=2,col="black",ylim=c(min(x$exp.coef.[,j]),max(x$exp.coef.[,j])),
@@ -204,7 +207,7 @@ plot7 <- function(x)
      img <- list()
      for (i in 1:j)
       {
-        mypath <- file.path(getwd(), paste("coef_", i, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("coef_", i, ".png", sep = ""))
         img[[i]] <- readPNG(mypath)
       }
 
@@ -280,8 +283,8 @@ plot10 <- function(x)
             if (non.interactive == FALSE) 
               {
                 choices <- c("actual and predicted", "residuals","exp. var", "posterior inclusion probabilities - one plot", 
-                             "posterior inclusion probabilities - separate plots (files in working directory)",
-                             "expected coefficients - one plot", "expected coefficients - separate plots (files in working directory)", 
+                             "posterior inclusion probabilities - separate plots (files in temporary directory)",
+                             "expected coefficients - one plot", "expected coefficients - separate plots (files in temporary directory)", 
                              "exp. lambda", "posterior model probabilities")
                 pick <- menu(choices = paste(" ", choices), title = "\nMake a plot selection (or 0 to exit):")
                 switch(pick, plot1(x), plot2(x), plot3(x), plot4(x), plot5(x), plot6(x), plot7(x), plot10(x), plot8(x))
@@ -304,8 +307,8 @@ plot10 <- function(x)
             if (non.interactive == FALSE) 
               {
                 choices <- c("actual vs. predicted", "residuals","exp. var", "posterior inclusion probabilities - one plot", 
-                             "posterior inclusion probabilities - separate plots (files in working directory)",
-                             "expected coefficients - one plot", "expected coefficients - separate plots (files in working directory)", 
+                             "posterior inclusion probabilities - separate plots (files in temporary directory)",
+                             "expected coefficients - one plot", "expected coefficients - separate plots (files in temporary directory)", 
                              "exp. lambda", "number of models used in DMA estimation")
                 pick <- menu(choices = paste(" ", choices), title = "\nMake a plot selection (or 0 to exit):")
                 switch(pick, plot1(x), plot2(x), plot3(x), plot4(x), plot5(x), plot6(x), plot7(x), plot10(x), plot9(x))
@@ -330,7 +333,7 @@ plot10 <- function(x)
          if (non.interactive == FALSE) 
            {
              choices <- c("actual vs. predicted", "residuals","exp. var", "posterior inclusion probabilities", 
-                          "expected coefficients - one plot", "expected coefficients - separate plots (files in working directory)",
+                          "expected coefficients - one plot", "expected coefficients - separate plots (files in temporary directory)",
                           "exp. lambda")
              pick <- menu(choices = paste(" ", choices), title = "\nMake a plot selection (or 0 to exit):")
              switch(pick, plot1(x), plot2(x), plot3(x), plot4(x), plot6(x), plot7(x), plot10(x))

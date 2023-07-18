@@ -13,6 +13,9 @@
 \item{...}{not used}
 }
 
+\value{Called for making a plot.
+}
+
 \details{
 If \code{x} comes from estimation of Dynamic Model Averaging (DMA), after executing the command, the User is asked to choose
 
@@ -20,9 +23,9 @@ If \code{x} comes from estimation of Dynamic Model Averaging (DMA), after execut
 
 2 - for plotting Mean Absolute Error (MAE) for all estimated models,
 
-3 - for plotting posterior inclusion probabilities (including constant) for all estimated models, the outcomes are saved in separate png files in the current working directory, and additionally, plots for different variables are collected into one big plot (also saved as a png file in the current working directory),
+3 - for plotting posterior inclusion probabilities (including constant) for all estimated models, the outcomes are saved in separate png files in the temporary directory, and additionally, plots for different variables are collected into one big plot (also saved as a png file in the temporary directory),
 
-4 - for plotting expected coefficients (including constant) for all estimated models, the outcomes are saved in separate png files in the current working directory, and additionally, plots for different variables are collected into one big plot (also saved as a png file in the current working directory).
+4 - for plotting expected coefficients (including constant) for all estimated models, the outcomes are saved in separate png files in the temporary directory, and additionally, plots for different variables are collected into one big plot (also saved as a png file in the temporary directory).
 
 Chosing 0 exits the \code{plot} command.
 
@@ -34,7 +37,7 @@ If \code{x} comes from estimation of Dynamic Model Selection (DMS) or Median Pro
 
 2 - for plotting Mean Absolute Error (MAE) for all estimated models,
 
-3 - for plotting expected coefficients (including constant) for all estimated models, the outcomes are saved in separate png files in the current working directory, and additionally, plots for different variables are collected into one big plot (also saved as a png file in the current working directory).
+3 - for plotting expected coefficients (including constant) for all estimated models, the outcomes are saved in separate png files in the temporary directory, and additionally, plots for different variables are collected into one big plot (also saved as a png file in the temporary directory).
 
 Chosing 0 exits the \code{plot} command.
 
@@ -52,7 +55,7 @@ Also, if \code{\link[base]{length}(grid.alpha)} or \code{\link[base]{length}(gri
 }
 
 \examples{
-\dontrun{
+\donttest{
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]

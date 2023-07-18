@@ -12,6 +12,9 @@
 \item{...}{not used}
 }
 
+\value{Called for printing.
+}
+
 \details{
 The function prints mean regression coefficients from the analyzed period, Root Mean Squared Error (RMSE) and Mean Absolute Error (MAE) from the estimated model. For \code{\link{roll.reg}} it also shows the size of a rolling window. 
 }

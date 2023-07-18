@@ -5,6 +5,10 @@
 
 plot.altf <- function(x, non.interactive=NULL, ...)
   {
+
+oldpar <- par(no.readonly=TRUE) 
+on.exit(par(oldpar))
+ 
 if (is.null(non.interactive)) 
   {
     non.interactive <- FALSE
@@ -152,7 +156,7 @@ plot1g <- function(x)
       
       for (j in 1:(length(names)))  
         { 
-          mypath <- file.path(getwd(), paste("altf_coeff_", j, ".png", sep = ""))
+          mypath <- file.path(tempdir(), paste("altf_coeff_", j, ".png", sep = ""))
           png(filename = mypath, height = height)
           par(xpd=TRUE, fig = c(0, 1, 0, 1), oma = c(2, 1, 1, 1), mar = c(5, 1, 2, 1))
           plot(index(x$y), rep(NA,length(index(x$y))), lty=2, type="l", col="white", ylim=c(m1[j],m2[j]), 
@@ -196,7 +200,7 @@ plot1g <- function(x)
        img <- list()
        for (i in 1:(length(names)))
         {
-          mypath <- file.path(getwd(), paste("altf_coeff_", i, ".png", sep = ""))
+          mypath <- file.path(tempdir(), paste("altf_coeff_", i, ".png", sep = ""))
           img[[i]] <- readPNG(mypath)
         }
 
@@ -255,7 +259,7 @@ plot2g <- function(x)
 
       for (j in 1:(length(names)))  
         {
-          mypath <- file.path(getwd(), paste("altf_p_val_", j, ".png", sep = ""))
+          mypath <- file.path(tempdir(), paste("altf_p_val_", j, ".png", sep = ""))
           png(filename = mypath, height = height)
           par(xpd=TRUE, fig = c(0, 1, 0, 1), oma = c(2, 1, 1, 1), mar = c(5, 1, 2, 1))
           plot(index(x$y), rep(NA,length(index(x$y))), lty=2, type="l", col="white", ylim=c(0,1), 
@@ -275,7 +279,7 @@ plot2g <- function(x)
        img <- list()
        for (i in 1:(length(names)))
         {
-          mypath <- file.path(getwd(), paste("altf_p_val_", i, ".png", sep = ""))
+          mypath <- file.path(tempdir(), paste("altf_p_val_", i, ".png", sep = ""))
           img[[i]] <- readPNG(mypath)
         }
 
@@ -294,8 +298,8 @@ plot2g <- function(x)
 
         if (non.interactive == FALSE) 
           {
-            choices <- c("expected coefficients - separate plots (files in working directory)",
-                         "p-values for t-tests - separate plots (files in working directory)")
+            choices <- c("expected coefficients - separate plots (files in temporary directory)",
+                         "p-values for t-tests - separate plots (files in temporary directory)")
             pick <- menu(choices = paste(" ", choices), title = "\nMake a plot selection (or 0 to exit):")
             switch(pick, plot1g(x), plot2g(x))
           }

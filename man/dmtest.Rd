@@ -22,7 +22,7 @@ dmtest(y,f)
 first column contains tests statistics, next p-values are given for the alternative hypothesis that alternative forecasts have different accuracy than the compared forecast, alternative forecasts are less accurate and alternative forecasts have greater accuracy, tests outcomes for different forecasts are ordered by rows}
 
 \examples{
-\dontrun{
+\donttest{
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]
@@ -38,7 +38,7 @@ dm <- dmtest(y=as.vector(ld.wti),f=fc)
 }
 
 \references{
-Diebold, F. X., 2015. Comparing predictive accuracy, Twenty years later: A peersonal perspective on the use and abuse of Diebold-Mariano tests. \emph{Journal of Business & Economic Statistics} \bold{33}, \url{http://dx.doi.org/10.1080/07350015.2014.983236}.
+Diebold, F. X., 2015. Comparing predictive accuracy, Twenty years later: A peersonal perspective on the use and abuse of Diebold-Mariano tests. \emph{Journal of Business & Economic Statistics} \bold{33}, \doi{10.1080/07350015.2014.983236}.
 
 Diebold, F. X., Mariano, R. S., 1995. Comparing predictive accuracy. \emph{Journal of Business & Economic Statistics} \bold{13}, 253--263.
 }

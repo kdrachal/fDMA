@@ -13,6 +13,9 @@
 \item{...}{not used}
 }
 
+\value{Called for printing.
+}
+
 \details{
 The function produces the outcomes as \code{\link{print.dma}}.
 
@@ -28,7 +31,7 @@ wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]
 ld.drivers <- (diff(log(drivers)))[-1,]
-\dontrun{
+\donttest{
 m1 <- fDMA(y=ld.wti,x=ld.drivers,alpha=0.99,lambda=0.99,initvar=1,model="dma")
 m2 <- fDMA(y=ld.wti,x=ld.drivers,alpha=0.99,lambda=0.99,initvar=1,model="dms")
 }

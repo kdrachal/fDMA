@@ -39,7 +39,7 @@ d=NULL,fmod=NULL,parallel=NULL,c=NULL,small.c=NULL)
 }
 
 \examples{
-\dontrun{
+\donttest{
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]

@@ -13,12 +13,15 @@
 \item{...}{not used}
 }
 
+\value{Called for making a plot.
+}
+
 \details{
 After executing the command, the User is asked to choose
 
-1 - for plotting expected coefficients in separate png files, saved in the current working directory, and moreover, to paste them into one big plot (also saved as a png file in the current working directory),
+1 - for plotting expected coefficients in separate png files, saved in the temporary directory, and moreover, to paste them into one big plot (also saved as a png file in the temporary directory),
 
-2 - for plotting p-values (averaged over selected window sizes) for t-test of statistical significance for coefficients from a rolling regression, in separate png files, saved in the current working directory, and moreover, to paste them into one big plot (also saved as a png file in the current working directory),
+2 - for plotting p-values (averaged over selected window sizes) for t-test of statistical significance for coefficients from a rolling regression, in separate png files, saved in the temporary directory, and moreover, to paste them into one big plot (also saved as a png file in the temporary directory),
 
 3 - for plotting weights of all models used in averaging,
 
@@ -37,7 +40,7 @@ If \code{\link[grDevices]{graphics.off}} is not executed before plotting \code{a
 }
 
 \examples{
-\dontrun{
+\donttest{
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 a <- altf3(y=wti,x=drivers,windows=c(36,100,150))

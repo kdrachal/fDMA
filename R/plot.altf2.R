@@ -6,6 +6,9 @@
 plot.altf2 <- function(x, non.interactive=NULL, ...)
   {
 
+oldpar <- par(no.readonly=TRUE) 
+on.exit(par(oldpar))
+
 if (is.null(non.interactive)) 
   {
     non.interactive <- FALSE
@@ -64,7 +67,7 @@ plot1g <- function(x)
 
     for (j in 1:(length(names)))  
       {
-        mypath <- file.path(getwd(), paste("altf2_coeff_", j, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("altf2_coeff_", j, ".png", sep = ""))
         png(filename = mypath, height = height)
         par(xpd=TRUE, fig = c(0, 1, 0, 1), oma = c(2, 1, 1, 1), mar = c(5, 1, 2, 1))
         plot(index(x$y), rep(NA,length(index(x$y))), lty=2, type="l", col="white", ylim=c(m1[j],m2[j]), 
@@ -93,7 +96,7 @@ plot1g <- function(x)
      img <- list()
      for (i in 1:(length(names)))
       {
-        mypath <- file.path(getwd(), paste("altf2_coeff_", i, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("altf2_coeff_", i, ".png", sep = ""))
         img[[i]] <- readPNG(mypath)
       }
 
@@ -129,7 +132,7 @@ plot2g <- function(x)
     
     for (j in 1:(length(names)))  
       {
-        mypath <- file.path(getwd(), paste("altf2_p_val_", j, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("altf2_p_val_", j, ".png", sep = ""))
         png(filename = mypath, height = height)
         par(xpd=TRUE, fig = c(0, 1, 0, 1), oma = c(2, 1, 1, 1), mar = c(5, 1, 2, 1))
         plot(index(x$y), rep(NA,length(index(x$y))), lty=2, type="l", col="white", ylim=c(0,1), 
@@ -176,7 +179,7 @@ plot2g <- function(x)
      img <- list()
      for (i in 1:(length(names)))
       {
-        mypath <- file.path(getwd(), paste("altf2_p_val_", i, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("altf2_p_val_", i, ".png", sep = ""))
         img[[i]] <- readPNG(mypath)
       }
 
@@ -212,7 +215,7 @@ plot3g <- function(x)
     
     for (j in 1:(length(names)))  
       {
-        mypath <- file.path(getwd(), paste("altf2_weights_", j, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("altf2_weights_", j, ".png", sep = ""))
         png(filename = mypath, height = height)
         par(xpd=TRUE, fig = c(0, 1, 0, 1), oma = c(2, 1, 1, 1), mar = c(2, 1, 2, 1))
         plot(index(x$y), rep(NA,length(index(x$y))), lty=2, type="l", col="white", ylim=c(0,1), 
@@ -240,7 +243,7 @@ plot3g <- function(x)
      img <- list()
      for (i in 1:(length(names)))
       {
-        mypath <- file.path(getwd(), paste("altf2_weights_", i, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("altf2_weights_", i, ".png", sep = ""))
         img[[i]] <- readPNG(mypath)
       }
 
@@ -276,7 +279,7 @@ plot4g <- function(x)
     
     for (j in 1:(length(names)))  
       {
-        mypath <- file.path(getwd(), paste("altf2_rvi_", j, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("altf2_rvi_", j, ".png", sep = ""))
         png(filename = mypath, height = height)
         par(xpd=TRUE, fig = c(0, 1, 0, 1), oma = c(2, 1, 1, 1), mar = c(5, 1, 2, 1))
         plot(index(x$y), rep(NA,length(index(x$y))), lty=2, type="l", col="white", ylim=c(0,1), 
@@ -306,7 +309,7 @@ plot4g <- function(x)
      img <- list()
      for (i in 1:(length(names)))
       {
-        mypath <- file.path(getwd(), paste("altf2_rvi_", i, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("altf2_rvi_", i, ".png", sep = ""))
         img[[i]] <- readPNG(mypath)
       }
 
@@ -362,10 +365,10 @@ plot5g <- function(x)
 
         if (non.interactive == FALSE) 
           {
-            choices <- c("expected coefficients - separate plots (files in working directory)",
-                         "p-values for t-tests - separate plots (files in working directory)",
-                         "models' weights - separate plots (files in working directory)",
-                         "relative variable importance (files in working directory)",
+            choices <- c("expected coefficients - separate plots (files in temporary directory)",
+                         "p-values for t-tests - separate plots (files in temporary directory)",
+                         "models' weights - separate plots (files in temporary directory)",
+                         "relative variable importance (files in temporary directory)",
                          "expected number of variables (incl. constant)")
             pick <- menu(choices = paste(" ", choices), title = "\nMake a plot selection (or 0 to exit):")
             switch(pick, plot1g(x), plot2g(x), plot3g(x), plot4g(x), plot5g(x))

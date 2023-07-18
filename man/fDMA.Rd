@@ -76,7 +76,7 @@ wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]
 ld.drivers <- (diff(log(drivers)))[-1,]
-\dontrun{
+\donttest{
 m1 <- fDMA(y=ld.wti,x=ld.drivers,alpha=0.99,lambda=0.90,initvar=10)
 m2 <- fDMA(y=ld.wti,x=ld.drivers,alpha=0.99,lambda=0.90,initvar=10,model="dms")
 m3 <- fDMA(y=ld.wti,x=ld.drivers,alpha=0.99,lambda=0.90,initvar=10,V.meth="ewma",kappa=0.9)
@@ -90,7 +90,7 @@ mod3 <- fDMA(y=ld.wti[1:20,1],x=s,alpha=0.99,lambda=0.90,initvar=10,V.meth="ewma
 mod4 <- fDMA(y=ld.wti[1:20,1],x=s,alpha=0.99,lambda=0.90,initvar=10,DOW=0.7)
 }
 # Google trends are available since 2004
-\dontrun{
+\donttest{
 gp <- trends/100
 s <- ld.drivers['2004-01-01/']
 m5 <- fDMA(y=ld.wti['2004-01-01/'],x=s,alpha=0.99,lambda=0.90,initvar=10,gprob=gp,omega=0.5)
@@ -104,7 +104,7 @@ mod5 <- fDMA(y=ld.wti['2004-01-01/'][1:20,1],x=s,alpha=0.99,lambda=0.90,initvar=
 # models just with one independent variable and a constant will be averaged
 mds <- diag(1,ncol(ld.drivers),ncol(ld.drivers))
 mds <- cbind(rep(1,ncol(ld.drivers)),mds)
-\dontrun{
+\donttest{
 m6 <- fDMA(y=ld.wti,x=ld.drivers,alpha=0.99,lambda=0.90,initvar=10,mods.incl=mds)
 }
 \dontshow{
@@ -114,11 +114,11 @@ mod6 <- fDMA(y=ld.wti[1:20,1],x=s,alpha=0.99,lambda=0.90,initvar=10,mods.incl=md
 # models just with one independent variable (without a constant) will be averaged
 mds.nc <- diag(1,ncol(ld.drivers),ncol(ld.drivers))
 mds.nc <- cbind(rep(0,ncol(ld.drivers)),mds.nc)
-\dontrun{
+\donttest{
 m7 <- fDMA(y=ld.wti,x=ld.drivers,alpha=0.99,lambda=0.90,initvar=10,mods.incl=mds.nc)
 }
 # model with multiple lambda
-\dontrun{
+\donttest{
 m8 <- fDMA(y=ld.wti,x=ld.drivers,alpha=0.99,lambda=c(0.99,0.95,0.90),initvar=10)
 }
 }
@@ -142,7 +142,7 @@ Mitchell, T. J., Beauchamp, J. J., 1988. Bayesian variable selection in linear r
 
 Onorante, L., Raftery, A. E., 2016. Dynamic model averaging in large model spaces using dynamic Occam's window. \emph{European Economic Review} \bold{81}, 2--14.
 
-Yin, X., Peng, J., Tang, T., 2018. Improving the forecasting accuracy of crude oil prices. \emph{Sustainability} \bold{10}, 454. \url{https://doi.org/10.3390/su10020454}
+Yin, X., Peng, J., Tang, T., 2018. Improving the forecasting accuracy of crude oil prices. \emph{Sustainability} \bold{10}, 454. \doi{10.3390/su10020454}
 }
 
 \seealso{\code{\link{grid.DMA}}, \code{\link{print.dma}}, \code{\link{summary.dma}}, \code{\link{plot.dma}}, \code{\link{hit.ratio}}.}

@@ -12,13 +12,16 @@
 \item{...}{not used}
 }
 
+\value{Called for printing.
+}
+
 \details{
 The function prints forecast quality measures from \code{x}. For details see \code{\link[forecast]{accuracy}}.
 }
 
 
 \examples{
-\dontrun{
+\donttest{
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 a <- altf(y=wti,x=drivers)

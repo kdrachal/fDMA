@@ -1,7 +1,7 @@
 
 predict.dma <- function(object,newdata,type,...)
   {
-    if (class(object)=="dma")
+    if (inherits(object,"dma"))
       {
         co <- coef.dma(object)
         newdata <- cbind(1,newdata)
@@ -26,7 +26,7 @@ predict.dma <- function(object,newdata,type,...)
 
 fitted.dma <- function(object,...)
   {
-    if (class(object)=="dma")
+    if (inherits(object,"dma"))
       {
         return(as.vector(object$y.hat))
       }
@@ -34,7 +34,7 @@ fitted.dma <- function(object,...)
 
 residuals.dma <- function(object,...)
   {
-    if (class(object)=="dma")
+    if (inherits(object,"dma"))
       {
         return(as.vector(object$y.hat)-as.vector(object$y))
       }
@@ -42,7 +42,7 @@ residuals.dma <- function(object,...)
 
 coef.dma <- function(object,...)
   {
-    if (class(object)=="dma")
+    if (inherits(object,"dma"))
       {
         return(object$exp.coef.)
       }
@@ -50,7 +50,7 @@ coef.dma <- function(object,...)
 
 rvi <- function(dma.object)
   {
-    if (class(dma.object)=="dma")
+    if (inherits(dma.object,"dma"))
       {
         return(dma.object$post.incl)
       }

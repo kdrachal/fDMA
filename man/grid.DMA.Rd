@@ -57,7 +57,7 @@ wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]
 ld.drivers <- (diff(log(drivers)))[-1,]
-\dontrun{
+\donttest{
 gra <- c(0.99,0.98,0.97)
 grl <- c(0.99,0.95)
 g1 <- grid.DMA(y=ld.wti,x=ld.drivers,grid.alpha=gra,grid.lambda=grl,initvar=10)
@@ -71,7 +71,7 @@ g <- grid.DMA(y=ld.wti[1:20,1],x=ld.drivers[1:20,1:4],grid.alpha=gra,grid.lambda
 model <- g$models[[3]][[2]]
 
 # models with various multiple lambdas
-\dontrun{
+\donttest{
 gra <- c(0.99,0.98,0.97)
 grl <- list(c(0.99,0.95,0.90),c(0.99,0.98,0.97,0.96,0.95))
 g2 <- grid.DMA(y=ld.wti,x=ld.drivers,grid.alpha=gra,grid.lambda=grl,initvar=10)

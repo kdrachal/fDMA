@@ -20,7 +20,7 @@ tests statistics and p-values are given by columns,
 tests outcomes for different variables are ordered by rows}
 
 \examples{
-\dontrun{
+\donttest{
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]

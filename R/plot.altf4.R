@@ -5,7 +5,10 @@
 
 plot.altf4 <- function(x, non.interactive=NULL, ...)
   {
- 
+
+oldpar <- par(no.readonly=TRUE) 
+on.exit(par(oldpar))
+
 plot1g <- function(x)
   {
     if (is.null(non.interactive)) 
@@ -32,7 +35,7 @@ plot1g <- function(x)
         m1 <- min(x$coeff.[[1]][,j],na.rm=TRUE)
         m2 <- max(x$coeff.[[1]][,j],na.rm=TRUE)
 
-        mypath <- file.path(getwd(), paste("altf4_coeff_", j, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("altf4_coeff_", j, ".png", sep = ""))
         png(filename = mypath, height = height)
         par(xpd = TRUE, fig = c(0, 1, 0, 1), oma = c(2, 1, 1, 1), mar = c(2, 1, 2, 1))
         plot(index(x$y), x$coeff.[[1]][,j], lty=1, type="l", col="blue", ylim=c(m1,m2), 
@@ -44,7 +47,7 @@ plot1g <- function(x)
      img <- list()
      for (i in 1:(length(names)))
       {
-        mypath <- file.path(getwd(), paste("altf4_coeff_", i, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("altf4_coeff_", i, ".png", sep = ""))
         img[[i]] <- readPNG(mypath)
       }
 
@@ -105,7 +108,7 @@ plot3g <- function(x)
         
         if (non.interactive == FALSE) 
           {
-            choices <- c("expected coefficients - separate plots (files in working directory)",
+            choices <- c("expected coefficients - separate plots (files in temporary directory)",
                          "models' weights",
                          "expected window size")
             pick <- menu(choices = paste(" ", choices), title = "\nMake a plot selection (or 0 to exit):")

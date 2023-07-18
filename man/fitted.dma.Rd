@@ -13,12 +13,15 @@
 \item{...}{not used}
 }
 
+\value{\code{\link[base]{vector}} of forecasted values
+}
+
 \examples{
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]
 ld.drivers <- (diff(log(drivers)))[-1,]
-\dontrun{
+\donttest{
 m1 <- fDMA(y=ld.wti,x=ld.drivers,alpha=0.99,lambda=0.99,initvar=1,model="dma")
 f <- fitted(object=m1)
 }

@@ -12,6 +12,9 @@
 \item{...}{not used}
 }
 
+\value{Called for printing.
+}
+
 \details{
 The function produces the outcomes as \code{\link{print.reg}}.
 

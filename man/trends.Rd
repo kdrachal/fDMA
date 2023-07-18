@@ -37,7 +37,7 @@ ld.wti <- (diff(log(wti)))[-1,]
 ld.drivers <- (diff(log(drivers)))[-1,]
 ld.wti <- ld.wti['2004-01-01-/']
 ld.drivers <- ld.drivers['2004-01-01-/']
-\dontrun{
+\donttest{
 xx <- ld.drivers
 m <- fDMA(y=ld.wti,x=xx,alpha=0.99,lambda=0.99,initvar=1,model="dma",gprob=gtrends,omega=0.5)
 }

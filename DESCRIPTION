@@ -22,7 +22,7 @@ Imports: doParallel,
 Suggests: R.rsp
 VignetteBuilder: R.rsp
 LinkingTo: Rcpp, RcppArmadillo 
-Date: 2022-09-04
+Date: 2023-07-15
 Authors@R: person("Krzysztof", "Drachal", role = c("aut","cre"), email="kdrachal@wne.uw.edu.pl", comment = "Faculty of Economic Sciences, University of Warsaw, Poland")
 Author: Krzysztof Drachal [aut, cre] (Faculty of Economic Sciences, University of Warsaw, Poland)
 Maintainer: Krzysztof Drachal <kdrachal@wne.uw.edu.pl>

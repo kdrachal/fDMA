@@ -25,7 +25,7 @@ wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]
 ld.drivers <- (diff(log(drivers)))[-1,]
-\dontrun{
+\donttest{
 m1 <- fDMA(y=wti,x=drivers,alpha=0.99,lambda=0.99,initvar=10)
 hit.ratio(y=wti,y.hat=m1$y.hat)
 

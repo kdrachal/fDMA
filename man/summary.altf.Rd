@@ -12,6 +12,9 @@
 \item{...}{not used}
 }
 
+\value{Called for printing.
+}
+
 \details{
 The function produces the outcomes as \code{\link{print.altf}}.
 
@@ -19,7 +22,7 @@ Additionally, it provides mean values of coefficients and how often p-values for
 }
 
 \examples{
-\dontrun{
+\donttest{
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 a <- altf(y=wti,x=drivers)

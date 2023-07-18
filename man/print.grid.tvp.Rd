@@ -12,6 +12,9 @@
 \item{...}{not used}
 }
 
+\value{Called for printing.
+}
+
 \details{
 The function prints Root Mean Squared Error (RMSE) and Mean Absolute Error (MAE) for all estimated models.
 }
@@ -21,7 +24,7 @@ wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]
 ld.drivers <- (diff(log(drivers)))[-1,]
-\dontrun{
+\donttest{
 grl <- c(0.99,0.98,0.97,0.96,0.95)
 g <- grid.tvp(y=ld.wti,x=ld.drivers,V=1,grid.lambda=grl)
 

@@ -24,7 +24,6 @@ tvp(y,x,V,lambda,W=NULL,kappa=NULL,c=NULL)
 \details{It is not possible to set \code{c=FALSE} if \code{ncol(x)=0}. In such a case the function will automatically reset \code{c=TRUE} inside the code.}
 
 \value{class \code{tvp} object, \code{\link[base]{list}} of
-
 \item{$y.hat}{fitted (forecasted) values}
 \item{$thetas}{estimated regression coefficients}
 \item{$pred.dens.}{predicitive densities from each period}
@@ -36,19 +35,19 @@ wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]
 ld.drivers <- (diff(log(drivers)))[-1,]
-\dontrun{
+\donttest{
 t1 <- tvp(y=ld.wti,x=ld.drivers,V=1,lambda=0.99)
 }
 \dontshow{
 tt1 <- tvp(y=ld.wti[1:20,1],x=ld.drivers[1:20,1:4],V=1,lambda=0.99)
 }
-\dontrun{
+\donttest{
 t2 <- tvp(y=ld.wti,x=ld.drivers,V=1,lambda=0.99,W=1)
 }
 \dontshow{
 tt2 <- tvp(y=ld.wti[1:20,1],x=ld.drivers[1:20,1:4],V=1,lambda=0.99,W=1)
 }
-\dontrun{
+\donttest{
 t3 <- tvp(y=ld.wti,x=ld.drivers,V=1,lambda=0.99,W=1,kappa=0.75)
 }
 \dontshow{
@@ -62,7 +61,7 @@ t4 <- tvp(y=ld.wti,x=empty,lambda=0.99,V=1)
 \references{
 Raftery, A. E., Karny, M., Ettler, P., 2010. Online prediction under model uncertainty via Dynamic Model Averaging: Application to a cold rolling mill. \emph{Technometrics} \bold{52}, 52--66.
 
-Sanderson, C., Curtin, R., 2016. Armadillo: A template-based C++ library for linear algebra. \emph{Journal of Open Source Software} \bold{1}, \url{http://arma.sourceforge.net/armadillo_joss_2016.pdf}.
+Sanderson, C., Curtin, R., 2016. Armadillo: A template-based C++ library for linear algebra. \emph{Journal of Open Source Software} \bold{1}, \url{https://arma.sourceforge.net/armadillo_joss_2016.pdf}.
 }
 
 \seealso{\code{\link{grid.tvp}}, \code{\link{print.tvp}}, \code{\link{summary.tvp}}, \code{\link{plot.tvp}}.}

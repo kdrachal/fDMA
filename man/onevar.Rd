@@ -19,7 +19,7 @@ onevar(x)
 inclusion of a variable is indicated by 1, omitting by 0}
 
 \examples{
-\dontrun{
+\donttest{
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]

@@ -14,6 +14,9 @@
 \item{...}{not used}
 }
 
+\value{Called for making a plot.
+}
+
 \details{
 If \code{x} comes from estimation of Dynamic Model Averaging (DMA), after executing the command, the User is asked to choose
 
@@ -25,11 +28,11 @@ If \code{x} comes from estimation of Dynamic Model Averaging (DMA), after execut
 
 4 - for plotting posterior inclusion probabilities (including constant) on one plot,
 
-5 - for plotting posterior inclusion probabilities (including constant) in separate png files, saved in the current working directory, and moreover, to paste them into one big plot (also saved as a png file in the current working directory),
+5 - for plotting posterior inclusion probabilities (including constant) in separate png files, saved in the temporary directory, and moreover, to paste them into one big plot (also saved as a png file in the temporary directory),
 
 6 - for plotting expected coefficients (including constant) on one plot,
 
-7 - for plotting expected coefficients (including constant) in separate png files, saved in the current working directory, and moreover, to paste them into one big plot (also saved as a png file in the current working directory),
+7 - for plotting expected coefficients (including constant) in separate png files, saved in the temporary directory, and moreover, to paste them into one big plot (also saved as a png file in the temporary directory),
 
 8 - for plotting the expected value of \code{lambda},
 
@@ -52,7 +55,7 @@ If {x} comes from estimation of Dynamic Model Selection (DMS) or Median Probabil
 
 5 - for plotting expected coefficients (including constant) on one plot,
 
-6 - for plotting expected coefficients (including constant) in separate png files, saved in the current working directory, and moreover, to paste them into one big plot (also saved as a png file in the current working directory),
+6 - for plotting expected coefficients (including constant) in separate png files, saved in the temporary directory, and moreover, to paste them into one big plot (also saved as a png file in the temporary directory),
 
 7 - for plotting the expected value of \code{lambda} (only for DMS).
 
@@ -69,7 +72,7 @@ If \code{\link[grDevices]{graphics.off}} is not executed before plotting \code{d
 }
 
 \examples{
-\dontrun{
+\donttest{
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]

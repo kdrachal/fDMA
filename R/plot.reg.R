@@ -6,6 +6,9 @@
 plot.reg <- function(x, non.interactive=NULL, ...)
   {
 
+oldpar <- par(no.readonly=TRUE) 
+on.exit(par(oldpar))
+
 if (is.null(non.interactive)) 
   {
     non.interactive <- FALSE
@@ -97,7 +100,7 @@ plot4 <- function(x)
 
     for (j in 1:(ncol(x$coeff.)))
       {
-        mypath <- file.path(getwd(), paste("reg_coeff_", j, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("reg_coeff_", j, ".png", sep = ""))
         png(filename = mypath, height = height)
         par(xpd = TRUE, fig = c(0, 1, 0, 1), oma = c(2, 1, 1, 1), mar = c(2, 1, 2, 1))
         m1 <- min(x$coeff.[,j],na.rm=TRUE)
@@ -110,7 +113,7 @@ plot4 <- function(x)
      img <- list()
      for (i in 1:j)
       {
-        mypath <- file.path(getwd(), paste("reg_coeff_", i, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("reg_coeff_", i, ".png", sep = ""))
         img[[i]] <- readPNG(mypath)
       }
 
@@ -174,7 +177,7 @@ plot6 <- function(x)
 
     for (j in 1:(ncol(x$coeff.)))
       {
-        mypath <- file.path(getwd(), paste("reg_p_val_", j, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("reg_p_val_", j, ".png", sep = ""))
         png(filename = mypath, height = height)
         par(xpd = TRUE, fig = c(0, 1, 0, 1), oma = c(2, 1, 1, 1), mar = c(2, 1, 2, 1))
         plot(x$p.val.[,j],col="blue",ylim=c(0,1),axes=TRUE, xaxt='n', xlab='',ylab='',type="l",main=names[j])
@@ -185,7 +188,7 @@ plot6 <- function(x)
      img <- list()
      for (i in 1:j)
       {
-        mypath <- file.path(getwd(), paste("reg_p_val_", i, ".png", sep = ""))
+        mypath <- file.path(tempdir(), paste("reg_p_val_", i, ".png", sep = ""))
         img[[i]] <- readPNG(mypath)
       }
 
@@ -203,8 +206,8 @@ plot6 <- function(x)
 if (non.interactive == FALSE) 
   {
     choices <- c("actual and predicted", "residuals", 
-                 "coefficients - one plot", "coefficients - separate plots (files in working directory)",
-                 "p-values - one plot", "p-values - separate plots (files in working directory)")
+                 "coefficients - one plot", "coefficients - separate plots (files in temporary directory)",
+                 "p-values - one plot", "p-values - separate plots (files in temporary directory)")
     pick <- menu(choices = paste(" ", choices), title = "\nMake a plot selection (or 0 to exit):")
     switch(pick, plot1(x), plot2(x), plot3(x), plot4(x), plot5(x), plot6(x))
   }

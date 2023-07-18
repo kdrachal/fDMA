@@ -12,12 +12,12 @@ reduce.size <- function(dma.object)
         return(x)
       }
     
-    if (class(dma.object)=="dma")
+    if (inherits(dma.object,"dma"))
       {
         return(f.red(dma.object))
       }
     
-    if (class(dma.object)=="grid.dma")
+    if (inherits(dma.object,"grid.dma")) 
       {
         for (i in 1:length(dma.object$models))
           {

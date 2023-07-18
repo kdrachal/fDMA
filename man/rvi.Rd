@@ -18,7 +18,7 @@ rvi(dma.object)
 \value{\code{matrix} of posterior inclusion probabilities for independent variables}
 
 \examples{
-\dontrun{
+\donttest{
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]
