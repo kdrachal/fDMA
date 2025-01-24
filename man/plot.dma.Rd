@@ -43,7 +43,7 @@ Chosing 0 exits the \code{plot} command.
 
 ---------------------------------------
 
-If {x} comes from estimation of Dynamic Model Selection (DMS) or Median Probability Model (MED), after executing \code{plot} the User is asked to choose
+If \code{x} comes from estimation of Dynamic Model Selection (DMS) or Median Probability Model (MED), after executing \code{plot} the User is asked to choose
 
 1 - for plotting actual and predicted values,
 
@@ -76,14 +76,17 @@ If \code{\link[grDevices]{graphics.off}} is not executed before plotting \code{d
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]
-ld.drivers <- (diff(log(drivers)))[-1,]
+ld.drivers <- drivers[-1,]
+ld.drivers[,c(4,6)] <- (diff(drivers[,c(4,6)]))[-1,]
+ld.drivers[,c(1:2,5,7)] <- (diff(log(drivers[,c(1:2,5,7)])))[-1,]
+ld.drivers[,c(3,6)] <- ld.drivers[,c(3,6)]/100
 
 m1 <- fDMA(y=ld.wti,x=ld.drivers,alpha=0.99,lambda=0.99,initvar=1,model="dma")
 m2 <- fDMA(y=ld.wti,x=ld.drivers,alpha=0.99,lambda=0.99,initvar=1,model="dms")
 
 # graphics.off()
-plot(m1)
+plot(m1,non.interactive=TRUE)
 # graphics.off()
-plot(m2)
+plot(m2,non.interactive=TRUE)
 }
 }

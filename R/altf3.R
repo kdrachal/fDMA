@@ -234,7 +234,7 @@ rownames(w[[1]]) <- rownames(coeff.av.all[[1]])
 fq2 <- list(y.roll.ols)
 names(fq2) <- "av. roll. OLS"
 
-fq <- c(as.numeric(accuracy(f=(as.vector(y.roll.ols))[initial.period:length(as.vector(y))],x=(as.vector(y))[initial.period:length(as.vector(y))])),
+fq <- c(as.numeric(accuracy(object=(as.vector(y.roll.ols))[initial.period:length(as.vector(y))],x=(as.vector(y))[initial.period:length(as.vector(y))])),
         as.numeric(hit.ratio(y=as.vector(y),y.hat=as.vector(y.roll.ols),d=d))
        )
 
@@ -247,7 +247,7 @@ if (! is.null(fmod))
   {
     y.dma <- fmod$y.hat
     a.dma <- c(
-               as.numeric(accuracy(f=(as.vector(y.dma))[initial.period:length(as.vector(y))],x=(as.vector(y))[initial.period:length(as.vector(y))])),
+               as.numeric(accuracy(object=(as.vector(y.dma))[initial.period:length(as.vector(y))],x=(as.vector(y))[initial.period:length(as.vector(y))])),
                as.numeric(hit.ratio(y=as.vector(y),y.hat=as.vector(y.dma),d=d))
               )
     fq <- rbind(a.dma,fq)

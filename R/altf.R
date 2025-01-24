@@ -535,7 +535,7 @@ for (i in 1:10)
   if (!is.null(fq[[i]]))
     {
       fq[[i]] <- c(
-                   as.numeric(accuracy(f=(as.vector(fq[[i]]))[initial.period:length(as.vector(y))],x=(as.vector(y))[initial.period:length(as.vector(y))])),
+                   as.numeric(accuracy(object=(as.vector(fq[[i]]))[initial.period:length(as.vector(y))],x=(as.vector(y))[initial.period:length(as.vector(y))])),
                    as.numeric(hit.ratio(y=as.vector(y),y.hat=as.vector(fq[[i]]),d=d))
                   )
     }
@@ -560,7 +560,7 @@ if (! is.null(fmod))
   {
     y.dma <- fmod$y.hat
     a.dma <- c(
-               as.numeric(accuracy(f=(as.vector(y.dma))[initial.period:length(as.vector(y))],x=(as.vector(y))[initial.period:length(as.vector(y))])),
+               as.numeric(accuracy(object=(as.vector(y.dma))[initial.period:length(as.vector(y))],x=(as.vector(y))[initial.period:length(as.vector(y))])),
                as.numeric(hit.ratio(y=as.vector(y),y.hat=as.vector(y.dma),d=d))
               )
     fq <- rbind(a.dma,fq)

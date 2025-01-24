@@ -59,7 +59,10 @@ Also, if \code{\link[base]{length}(grid.alpha)} or \code{\link[base]{length}(gri
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]
-ld.drivers <- (diff(log(drivers)))[-1,]
+ld.drivers <- drivers[-1,]
+ld.drivers[,c(4,6)] <- (diff(drivers[,c(4,6)]))[-1,]
+ld.drivers[,c(1:2,5,7)] <- (diff(log(drivers[,c(1:2,5,7)])))[-1,]
+ld.drivers[,c(3,6)] <- ld.drivers[,c(3,6)]/100
 gra <- c(0.99,0.98,0.97)
 grl <- c(0.99,0.95)
 
@@ -67,8 +70,8 @@ g1 <- grid.DMA(y=ld.wti,x=ld.drivers,grid.alpha=gra,grid.lambda=grl,initvar=1)
 g2 <- grid.DMA(y=ld.wti,x=ld.drivers,grid.alpha=gra,grid.lambda=grl,initvar=1,model="dms")
 
 # graphics.off()
-plot(g1)
+plot(g1,non.interactive=TRUE)
 # graphics.off()
-plot(g2)
+plot(g2,non.interactive=TRUE)
 }
 }

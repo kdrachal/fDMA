@@ -42,11 +42,14 @@ If \code{\link[grDevices]{graphics.off}} is not executed before plotting \code{g
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]
-ld.drivers <- (diff(log(drivers)))[-1,]
+ld.drivers <- drivers[-1,]
+ld.drivers[,c(4,6)] <- (diff(drivers[,c(4,6)]))[-1,]
+ld.drivers[,c(1:2,5,7)] <- (diff(log(drivers[,c(1:2,5,7)])))[-1,]
+ld.drivers[,c(3,6)] <- ld.drivers[,c(3,6)]/100
 \donttest{
 grw <- c(50,100,150)
 g <- grid.roll.reg(y=ld.wti,x=ld.drivers,grid.window=grw)
 
-plot(g)
+plot(g,non.interactive=TRUE)
 }
 }

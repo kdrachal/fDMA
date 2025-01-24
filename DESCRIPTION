@@ -1,7 +1,7 @@
 Package: fDMA
 Type: Package
 Title: Dynamic Model Averaging and Dynamic Model Selection for Continuous Outcomes 
-Version: 2.2.7
+Version: 2.2.8
 Imports: doParallel, 
          forecast, 
          foreach, 
@@ -22,7 +22,7 @@ Imports: doParallel,
 Suggests: R.rsp
 VignetteBuilder: R.rsp
 LinkingTo: Rcpp, RcppArmadillo 
-Date: 2023-07-15
+Date: 2025-01-23
 Authors@R: person("Krzysztof", "Drachal", role = c("aut","cre"), email="kdrachal@wne.uw.edu.pl", comment = "Faculty of Economic Sciences, University of Warsaw, Poland")
 Author: Krzysztof Drachal [aut, cre] (Faculty of Economic Sciences, University of Warsaw, Poland)
 Maintainer: Krzysztof Drachal <kdrachal@wne.uw.edu.pl>

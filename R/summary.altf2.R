@@ -44,7 +44,7 @@ summary.altf2 <- function(object, ...)
       names(temp) <- c("")
       print(temp,quote=FALSE)
       cat("\n")
-      print(s.quote=FALSE)
+      print(s,quote=FALSE)
       cat("\n")
     }
    cat("\n")

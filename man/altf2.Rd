@@ -49,7 +49,10 @@ If \code{gprob} is used, then for OLS mean values from the in-sample period are 
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]
-ld.drivers <- (diff(log(drivers)))[-1,]
+ld.drivers <- drivers[-1,]
+ld.drivers[,c(4,6)] <- (diff(drivers[,c(4,6)]))[-1,]
+ld.drivers[,c(1:2,5,7)] <- (diff(log(drivers[,c(1:2,5,7)])))[-1,]
+ld.drivers[,c(3,6)] <- ld.drivers[,c(3,6)]/100
 
 a1 <- altf2(y=ld.wti,x=ld.drivers,d=TRUE,initial.period=60)
 

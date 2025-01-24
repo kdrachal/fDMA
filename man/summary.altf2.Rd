@@ -25,7 +25,7 @@ Additionally, it provides mean values of coefficients, min, max and mean relativ
 \donttest{
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
-a <- altf2(y=wti,x=drivers)
+a <- altf2(y=wti,x=drivers[,5:7],initial.period=60)
 
 summary(a)
 }

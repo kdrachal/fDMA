@@ -26,14 +26,17 @@ first column contains tests statistics, next p-values are given for the alternat
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 ld.wti <- (diff(log(wti)))[-1,]
-ld.drivers <- (diff(log(drivers)))[-1,]
-m <- fDMA(y=ld.wti,x=ld.drivers,alpha=0.99,lambda=0.90,initvar=10)
+ld.drivers <- drivers[-1,]
+ld.drivers[,c(4,6)] <- (diff(drivers[,c(4,6)]))[-1,]
+ld.drivers[,c(1:2,5,7)] <- (diff(log(drivers[,c(1:2,5,7)])))[-1,]
+ld.drivers[,c(3,6)] <- ld.drivers[,c(3,6)]/100
+m <- fDMA(y=ld.wti,x=ld.drivers,alpha=0.99,lambda=0.90,initvar=10,initial.period=241)
 m <- m$y.hat
-a <- altf2(y=ld.wti,x=ld.drivers,d=TRUE)
+a <- altf2(y=ld.wti,x=ld.drivers,d=TRUE,initial.period=241)
 a <- a$y.hat
 a <- matrix(unlist(a),nrow=length(a),byrow=TRUE)
 fc <- rbind(m,a)
-dm <- dmtest(y=as.vector(ld.wti),f=fc)
+dm <- dmtest(y=as.vector(ld.wti)[-(1:240)],f=fc[,-(1:240)])
 }
 }
 

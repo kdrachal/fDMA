@@ -7,6 +7,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // tvpcpp
 List tvpcpp(mat x, vec y, mat xe, mat theta, mat E, double lambda, double V, Nullable<double> kappa);
 RcppExport SEXP _fDMA_tvpcpp(SEXP xSEXP, SEXP ySEXP, SEXP xeSEXP, SEXP thetaSEXP, SEXP ESEXP, SEXP lambdaSEXP, SEXP VSEXP, SEXP kappaSEXP) {

@@ -46,8 +46,8 @@ If \code{\link[grDevices]{graphics.off}} is not executed before plotting \code{a
 \donttest{
 wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
-a <- altf2(y=wti,x=drivers,av="aic")
+a <- altf2(y=wti,x=drivers[,5:7],av="aic")
 
-plot(a)
+plot(a,non.interactive=TRUE)
 }
 }

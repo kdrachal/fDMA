@@ -43,6 +43,6 @@ wti <- crudeoil[-1,1]
 drivers <- (lag(crudeoil[,-1],k=1))[-1,]
 a <- altf4(y=wti,x=drivers,windows=c(36,100,150))
 
-plot(a)
+plot(a,non.interactive=TRUE)
 }
 }
